@@ -54,18 +54,27 @@ async function run() {
             res.send(result);
         })
 
-        app.delete('/inventory/:id', async(req, res) =>{
+        app.delete('/inventory/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await carsCollection.deleteOne(query);
             res.send(result);
         })
 
-        app.post('/inventory', async(req, res) =>{
+        app.post('/inventory', async (req, res) => {
             const newCar = req.body;
             const result = await carsCollection.insertOne(newCar);
             res.send(result);
         });
+
+        app.get('/myItems', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const cursor = carsCollection.find(query);
+            const myItems = await cursor.toArray();
+            res.send(myItems);
+        })
     }
     finally { }
 }
