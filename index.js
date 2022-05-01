@@ -83,12 +83,18 @@ async function run() {
             res.send(result);
         });
 
-        app.get('/myItems', async (req, res) => {
+        app.get('/myItems', verifyJWT, async (req, res) => {
+            const reqEmail = req.decoded.email;
             const email = req.query.email;
-            const query = { email: email };
-            const cursor = carsCollection.find(query);
-            const myItems = await cursor.toArray();
-            res.send(myItems);
+            if (email === reqEmail) {
+                const query = { email: email };
+                const cursor = carsCollection.find(query);
+                const myItems = await cursor.toArray();
+                res.send(myItems);
+            }
+            else{
+                res.status(403).send({message: 'Forbidden access'})
+            }
         })
 
         app.post('/login', async (req, res) => {
