@@ -1,2 +1,2 @@
-git anode_modules
-env
+node_modules
+.env
