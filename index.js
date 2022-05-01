@@ -90,6 +90,14 @@ async function run() {
             const myItems = await cursor.toArray();
             res.send(myItems);
         })
+
+        app.post('/login', async (req, res) => {
+            const user = req.body;
+            const accessToken = jwt.sign(user, process.env.SECRET_ACCESS_TOKEN, {
+                expiresIn: '1d'
+            });
+            res.send({ accessToken });
+        })
     }
     finally { }
 }
