@@ -105,7 +105,9 @@ async function run() {
             res.send({ accessToken });
         })
     }
-    finally { }
+    finally {
+        // console.log('gg');
+     }
 }
 run().catch(console.dir);
 
