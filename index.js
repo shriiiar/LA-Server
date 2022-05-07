@@ -35,24 +35,12 @@ async function run() {
         const carsCollection = client.db('Assignment11').collection('Inventory');
 
         app.get('/inventory', async (req, res) => {
-            const page = parseInt(req.query.page);
-            const size = parseInt(req.query.size);
+
             const query = {};
             const cursor = carsCollection.find(query);
-            let products;
-            if (page || size) {
-                products = await cursor.skip(page * size).limit(size).toArray();
-            }
-            else {
-                products = await cursor.toArray();
-            }
+            const products = await cursor.toArray();
             res.send(products);
         });
-
-        app.get('/carsCount', async (req, res) => {
-            const count = await carsCollection.estimatedDocumentCount();
-            res.send({ count });
-        })
 
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
